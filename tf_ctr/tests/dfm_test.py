@@ -3,7 +3,7 @@
 import unittest
 import tensorflow as tf
 import numpy as np
-from tf_ctr.models.lr import LR
+from tf_ctr.models.dfm import DeepFM
 
 from tf_ctr.tools import get_data, cal_model
 
@@ -12,20 +12,18 @@ class TestMethods(unittest.TestCase):
     def __init__(self, *args, **kwargs):
         super(TestMethods, self).__init__(*args, **kwargs)
 
-    def test_lr(self):
-        for use_embedding in [True, False]:
-            self.lr_sub(use_embedding)
+    def test_dfm(self):
+        self.dfm_sub()
 
 
-    def lr_sub(self, use_embedding):
+    def dfm_sub(self):
         X_train, X_test, y_train, y_test, dense_features, sparse_features = get_data.get_x_y_data(
             data_type='sample'
         )
 
-        model = LR(
+        model = DeepFM(
             dense_features=dense_features,
-            sparse_features=sparse_features,
-            use_embedding=use_embedding
+            sparse_features=sparse_features
         )
 
         cal_model.model_train(model, X_train, y_train)
